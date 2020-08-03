@@ -20,39 +20,22 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView(selection: viewStore.binding(
-            get: \.selectedTab,
-            send: AppState.Action.setSelectedTab(tab:)
-        )) {
-            Tab1View(
-                store: self.store.scope(
-                    state: \.tab1State,
-                    action: AppState.Action.tab1Action(action:)
-                )
-            )
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image("first")
-                        Text("First")
-                    }
+        NavigationView {
+            VStack {
+                List {
+                    ForEachStore(
+                        self.store.scope(
+                            state: \.navigations,
+                            action: AppState.Action.navigationAction(index:action:)
+                        ),
+                        content: ContentNavigationView.init(store:)
+                    )
+                }
+                Spacer()
             }
-            .tag(AppState.Tab.one)
-
-            Tab2View(
-                store: self.store.scope(
-                    state: \.tab2State,
-                    action: AppState.Action.tab2Action(action:)
-                )
-            )
-                .font(.title)
-                .tabItem {
-                    VStack {
-                        Image("second")
-                        Text("Second")
-                    }
-            }
-            .tag(AppState.Tab.two)
+            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationBarTitle("Nav State \(viewStore.title == "" ? "" : "- " + viewStore.title)")
+            .navigationBarHidden(false)
         }
     }
 }
@@ -62,7 +45,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(
             store: Store(
                 initialState: AppState(),
-                reducer: contentReducer,
+                reducer: reducer,
                 environment: AppEnvironment()
             )
         )

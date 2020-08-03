@@ -1,5 +1,5 @@
 //
-//  Tab1Navigation.swift
+//  Navigation.swift
 //  TCAExample
 //
 //  Created by Van Simmons on 8/2/20.
@@ -9,11 +9,11 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct Tab1Navigation: View {
-    var store: Store<Tab1NavigationState, Tab1NavigationState.Action>
-    @ObservedObject var viewStore: ViewStore<Tab1NavigationState, Tab1NavigationState.Action>
+struct ContentNavigationView: View {
+    var store: Store<NavigationState, NavigationState.Action>
+    @ObservedObject var viewStore: ViewStore<NavigationState, NavigationState.Action>
 
-    init(store: Store<Tab1NavigationState, Tab1NavigationState.Action>) {
+    init(store: Store<NavigationState, NavigationState.Action>) {
         self.store = store
         self.viewStore = ViewStore(store, removeDuplicates: ==)
     }
@@ -39,7 +39,7 @@ struct Tab1Navigation: View {
         VStack {
             Text(viewStore.title)
             Button(action: {
-                self.viewStore.send(.setTab2Title(self.viewStore.title))
+                self.viewStore.send(.setTitle(self.viewStore.title))
             }) {
                 Text("Set the Global Value")
             }
@@ -47,13 +47,13 @@ struct Tab1Navigation: View {
     }
 }
 
-struct Tab1Navigation_Previews: PreviewProvider {
+struct Navigation_Previews: PreviewProvider {
     static var previews: some View {
-        Tab1Navigation(
-            store: Store<Tab1NavigationState, Tab1NavigationState.Action>(
-                initialState: Tab1NavigationState(index: 0, title: "Tab 2"),
-                reducer: tab1NavigationReducer,
-                environment: Tab1NavigationEnvironment()
+        ContentNavigationView(
+            store: Store<NavigationState, NavigationState.Action>(
+                initialState: NavigationState(index: 0, title: "Tab 2"),
+                reducer: navigationReducer,
+                environment: NavigationEnvironment()
             )
         )
     }
