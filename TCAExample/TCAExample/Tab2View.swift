@@ -22,6 +22,7 @@ struct Tab2View: View {
                 Text(viewStore.title)
             }
         }
+        .font(.largeTitle)
     }
 }
 struct Tab2View_Previews: PreviewProvider {

@@ -10,11 +10,6 @@ import SwiftUI
 import Foundation
 import ComposableArchitecture
 
-public enum Tab: Equatable {
-    case one
-    case two
-}
-
 // MARK: AppState
 public struct AppState: Equatable {
     var selectedTab = Tab.one
@@ -23,8 +18,15 @@ public struct AppState: Equatable {
 }
 
 public extension AppState {
+    enum Tab: Equatable {
+        case one
+        case two
+    }
+}
+
+public extension AppState {
     enum Action: Equatable {
-        case setSelectedTab(tab: Tab)
+        case setSelectedTab(tab: AppState.Tab)
         case tab1Action(action: Tab1State.Action)
         case tab2Action(action: Tab2State.Action)
     }

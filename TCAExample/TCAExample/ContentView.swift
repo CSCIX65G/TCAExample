@@ -37,7 +37,7 @@ struct ContentView: View {
                         Text("First")
                     }
             }
-            .tag(Tab.one)
+            .tag(AppState.Tab.one)
 
             Tab2View(
                 store: self.store.scope(
@@ -52,7 +52,7 @@ struct ContentView: View {
                         Text("Second")
                     }
             }
-            .tag(Tab.two)
+            .tag(AppState.Tab.two)
         }
     }
 }
