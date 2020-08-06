@@ -84,7 +84,8 @@ public let topNavReducer = Reducer<AppState, NavState.Action, Environment> { sta
     }
 }
 
-//let combinedCross = Reducer<AppState, NavState.Action, AppEnvironment>.combine(
+// public func identity<T>(_ t: T) -> T { t }
+//let reducerToCombine = Reducer<AppState, NavState.Action, AppEnvironment>.combine(
 //    topNavReducer.pullback(
 //        state: \.self,
 //        action: /AppState.Action.curriedNavigation(self.selectedRow),
