@@ -37,7 +37,7 @@ struct ContentView: View {
                 Spacer()
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .navigationBarTitle("Nav State \(viewStore.title == "" ? "" : "- " + viewStore.title)")
+            .navigationBarTitle("Nav State \(viewStore.globalTitle == "" ? "" : "- " + viewStore.globalTitle)")
             .navigationBarHidden(false)
         }
     }
@@ -48,7 +48,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(
             store: Store(
                 initialState: AppState(),
-                reducer: reducer,
+                reducer: appReducer,
                 environment: Environment()
             )
         )

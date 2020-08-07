@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = ContentView(
             store: Store(
                 initialState: AppState(),
-                reducer: reducer,
+                reducer: appReducer,
                 environment: Environment()
             )
         )

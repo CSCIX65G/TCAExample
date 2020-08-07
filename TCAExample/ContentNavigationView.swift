@@ -23,7 +23,7 @@ struct ContentNavigationView: View {
             NavigationLink(destination: self.linkView) {
                 VStack {
                     HStack {
-                        Text("\(viewStore.title)")
+                        Text("\(viewStore.localTitle)")
                             .font(.system(size: 24.0))
                             .padding([.top, .bottom], 8.0)
                             .padding(.leading, 24.0)
@@ -36,13 +36,13 @@ struct ContentNavigationView: View {
     var linkView: some View {
         VStack {
             Spacer()
-            Text(viewStore.title)
+            Text(viewStore.localTitle)
                 .font(.largeTitle)
                 .padding(.bottom, 12.0)
             
             HStack {
                 Button(action: {
-                    self.viewStore.send(.setTitle(self.viewStore.title))
+                    self.viewStore.send(.setGlobalTitle(self.viewStore.localTitle))
                 }) {
                     Text("Set")
                 }
@@ -52,7 +52,7 @@ struct ContentNavigationView: View {
                     .padding(12.0)
 
                 Button(action: {
-                    self.viewStore.send(.setTitle(""))
+                    self.viewStore.send(.setGlobalTitle(""))
                 }) {
                     Text("Clear")
                 }
@@ -71,7 +71,7 @@ struct ContentNavigationView: View {
 struct Navigation_Previews: PreviewProvider {
     static let navReducer = Reducer<NavState, NavState.Action, Environment> { state, action, _ in
         switch action {
-            case .setTitle:
+            case .setGlobalTitle:
                 return .none
             case .setSelectedRow:
                 return .none
@@ -81,7 +81,7 @@ struct Navigation_Previews: PreviewProvider {
     static var previews: some View {
         ContentNavigationView(
             store: Store<NavState, NavState.Action>(
-                initialState: NavState(index: 0, title: "Tab 2"),
+                initialState: NavState(index: 0, localTitle: "Tab 2"),
                 reducer: navReducer,
                 environment: Environment()
             )

@@ -20,7 +20,7 @@ public struct Environment {
 //======================================
 public struct AppState: Equatable {
     var selectedRow: Int? = .none
-    var title: String = ""
+    var globalTitle: String = ""
     var navigations: [NavState] = ["Nav 1", "Nav 2", "Nav 3"]
         .enumerated()
         .map(NavState.init)
@@ -38,7 +38,7 @@ public extension AppState {
 //======================================
 public struct NavState: Equatable {
     var index: Int
-    var title: String
+    var localTitle: String
 }
 
 extension NavState: Identifiable {
@@ -47,7 +47,7 @@ extension NavState: Identifiable {
 
 public extension NavState {
     enum Action: Equatable {
-        case setTitle(String)
+        case setGlobalTitle(String)
         case setSelectedRow(Int?)
     }
 }
@@ -56,12 +56,12 @@ public extension NavState {
 // MARK: Reducers
 //======================================
 
-let reducer = Reducer<AppState, AppState.Action, Environment> { state, action, _ in
+let appReducer = Reducer<AppState, AppState.Action, Environment> { state, action, _ in
     switch action {
         case .navigationAction(index: _, action: let action):
             switch action {
-                case .setTitle(let title):
-                    state.title = title
+                case .setGlobalTitle(let title):
+                    state.globalTitle = title
                 case .setSelectedRow(let row):
                     state.selectedRow = row
             }
@@ -73,10 +73,10 @@ let reducer = Reducer<AppState, AppState.Action, Environment> { state, action, _
 }.debug()
 
 // How do I pullback this reducer?
-public let topNavReducer = Reducer<AppState, NavState.Action, Environment> { state, action, _ in
+public let navReducer = Reducer<AppState, NavState.Action, Environment> { state, action, _ in
     switch action {
-        case .setTitle(let title):
-            state.title = title
+        case .setGlobalTitle(let title):
+            state.globalTitle = title
             return .none
         case .setSelectedRow(let row):
             state.selectedRow = row
@@ -84,7 +84,7 @@ public let topNavReducer = Reducer<AppState, NavState.Action, Environment> { sta
     }
 }
 
-// public func identity<T>(_ t: T) -> T { t }
+//public func identity<T>(_ t: T) -> T { t }
 //let reducerToCombine = Reducer<AppState, NavState.Action, AppEnvironment>.combine(
 //    topNavReducer.pullback(
 //        state: \.self,
